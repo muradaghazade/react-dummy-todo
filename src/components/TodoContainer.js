@@ -27,10 +27,8 @@ class TodoContainer extends React.Component {
   }
 
 
-  addTodo = () => {
-    console.log("Submit button clicked");
-    // let new_todos = this.state.todos.push(todo);
-    // this.setState({todos: new_todos});
+  addTodo = (todo_title) => {
+    console.log(`Add me to state: ${todo_title}`)
   }
 
   toggle = (id) => {
