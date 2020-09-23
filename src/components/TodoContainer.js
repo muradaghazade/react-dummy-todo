@@ -26,8 +26,15 @@ class TodoContainer extends React.Component {
     };    
   }
 
-  get_id = (id) => {
-    
+  toggle = (id) => {
+    let new_todos = this.state.todos.map(todo => { 
+      if (todo.id === id) { 
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });  
+
+    this.setState({todos: new_todos});    
   }
 
 
@@ -37,7 +44,7 @@ class TodoContainer extends React.Component {
 
         <TodoList 
           todos={this.state.todos} 
-          dummy={this.get_id} 
+          dummy={this.toggle} 
         />
       </div>
     )
