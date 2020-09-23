@@ -7,7 +7,7 @@ class TodoItem extends React.Component {
         <input 
           type="checkbox" 
           checked={this.props.todo.completed}
-          onChange={() => console.log("click event")} 
+          onChange={() => this.props.mummy(this.props.todo.id)} 
         />
         <li>{this.props.todo.title}</li>
       </div>
