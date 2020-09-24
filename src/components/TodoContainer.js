@@ -27,10 +27,13 @@ class TodoContainer extends React.Component {
   }
 
 
-  addTodo = () => {
-    console.log("Submit button clicked");
-    // let new_todos = this.state.todos.push(todo);
-    // this.setState({todos: new_todos});
+  addTodo = (todo_title) => {
+    
+    let new_todos = [...this.state.todos]
+    let max_id = new_todos.length+1
+    let todo =  {"id": max_id, "title": todo_title, "completed": false}
+    new_todos.push(todo)
+    this.setState({todos: new_todos});
   }
 
   toggle = (id) => {
@@ -46,11 +49,11 @@ class TodoContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="App" style={{textAlign:"center", paddingTop: "20px"}}>
         <Input append={this.addTodo} /> 
         <TodoList 
           todos={this.state.todos} 
-          dummy={this.toggle} 
+          dummy={this.toggle}
         />
       </div>
     )

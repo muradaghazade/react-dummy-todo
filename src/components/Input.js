@@ -23,8 +23,9 @@ class Input extends React.Component {
           value={this.state.data} 
           placeholder= "create a todo item"
           onChange = {(e) => this.changeData(e.target.value)}
+          style={{border: "none", background: "#e6e6e6", height: "25px", width: "200px", borderRadius: "5px", paddingLeft: "10px"}}
         />
-        <button onClick={()=>{this.props.append()}}>Submit</button>
+        <button style={{marginLeft: "10px", border: "none", background: "#e6e6e6", height: "25px", borderRadius: "5px"}} onClick={()=>{this.props.append(this.state.data)}}>Submit</button>
       </div>
     );
   }

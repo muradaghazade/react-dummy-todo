@@ -5,14 +5,16 @@ class TodosList extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.props.todos.map(todo => (
-          <TodoItem 
+      <div style={{display: "flex", flexWrap: "wrap", marginTop: "40px"}}>
+        {this.props.todos.map(todo => {
+          return <TodoItem 
             key={todo.id} 
             todo={todo}
-            mummy = {this.props.dummy} 
-          />
-        ))}
+            mummy = {this.props.dummy}
+            max={this.props.maximum}/>
+            
+        }
+        )}
       </div>
     )
   }
