@@ -17,6 +17,7 @@ class TodoItem extends React.Component {
             <h1 style={{textDecoration: "none"}}>{this.props.todo.title}</h1>
 
           )}
+          <button onClick={() => {this.props.delete_todo(this.props.todo.id)}}>Delete</button>
       </div>
     )
   }

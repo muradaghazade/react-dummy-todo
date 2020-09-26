@@ -11,7 +11,9 @@ class TodosList extends React.Component {
             key={todo.id} 
             todo={todo}
             mummy = {this.props.dummy}
-            max={this.props.maximum}/>
+            max={this.props.maximum}
+            delete_todo={this.props.delete}/>
+            
             
         }
         )}

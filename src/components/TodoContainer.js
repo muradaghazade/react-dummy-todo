@@ -6,6 +6,7 @@ class TodoContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      next_id : 4,
      todos: [
        {
          id: 1,
@@ -26,24 +27,77 @@ class TodoContainer extends React.Component {
     };    
   }
 
+  componentDidMount = () => {
+    let url = "http://127.0.0.1:5000/api/v1/todos";
+    fetch(url).
+      then(resp => resp.json()).then(data => {
+        
+        this.setState({todos: data['todos']}, 
+          () => { this.setState({next_id: data['next_id']}) }
+        );
+    }
+    ).catch(e => console.error("Error"));
+  }
+
 
   addTodo = (todo_title) => {
     
-    let new_todos = [...this.state.todos]
-    let max_id = new_todos.length+1
-    let todo =  {"id": max_id, "title": todo_title, "completed": false}
-    new_todos.push(todo)
-    this.setState({todos: new_todos});
+    // if (todo_title.trim() != "") {
+      let todo =  {"title": todo_title, "completed": false}
+      let new_todos = [...this.state.todos, todo]
+    // }
+    let url = "http://127.0.0.1:5000/api/v1/todos";
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(todo)
+    }).
+    then(resp => resp.json()).then(data => {
+      let new_todos = [...this.state.todos, data]
+      this.setState({todos: new_todos}, () => { this.setState({next_id: this.state.next_id+1}) });
+  }).catch(e => console.error("Error"));
+  }
+
+  deleteTodo = (id) => {
+    // let new_todos = this.state.todos.filter(todo => todo.id != id)
+    let idd = {'id': id}
+    let url = "http://127.0.0.1:5000/api/v1/todos";
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(idd)
+    }).
+    then(resp => resp.json()).then(data => {
+      this.setState({todos: data})
+  }).catch(e => console.error("Error"));
   }
 
   toggle = (id) => {
-    let new_todos = this.state.todos.map(todo => { 
-      if (todo.id === id) { 
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    this.setState({todos: new_todos});    
+
+    let idd = {'id': id}
+    let url = "http://127.0.0.1:5000/api/v1/todos";
+    // let new_todos = this.state.todos.map(todo => { 
+    //   if (todo.id === id) { 
+    //     todo.completed = !todo.completed;
+    //   }
+    //   return todo;
+    // });
+    // this.setState({todos: new_todos});
+
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(idd)
+    }).
+    then(resp => resp.json()).then(data => {
+      this.setState({todos: data});
+  }).catch(e => console.error("Error"));    
   }
 
 
@@ -54,6 +108,7 @@ class TodoContainer extends React.Component {
         <TodoList 
           todos={this.state.todos} 
           dummy={this.toggle}
+          delete={this.deleteTodo}
         />
       </div>
     )
