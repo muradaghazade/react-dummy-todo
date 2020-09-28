@@ -44,7 +44,6 @@ class TodoContainer extends React.Component {
     
     // if (todo_title.trim() != "") {
       let todo =  {"title": todo_title, "completed": false}
-      let new_todos = [...this.state.todos, todo]
     // }
     let url = "http://127.0.0.1:5000/api/v1/todos";
     fetch(url, {
@@ -55,8 +54,10 @@ class TodoContainer extends React.Component {
       body: JSON.stringify(todo)
     }).
     then(resp => resp.json()).then(data => {
-      let new_todos = [...this.state.todos, data]
-      this.setState({todos: new_todos}, () => { this.setState({next_id: this.state.next_id+1}) });
+      if (data.title.trim() != "") {
+        let new_todos = [...this.state.todos, data]
+        this.setState({todos: new_todos}, () => { this.setState({next_id: this.state.next_id+1}) });
+      } 
   }).catch(e => console.error("Error"));
   }
 
@@ -80,12 +81,12 @@ class TodoContainer extends React.Component {
 
     let idd = {'id': id}
     let url = "http://127.0.0.1:5000/api/v1/todos";
-    // let new_todos = this.state.todos.map(todo => { 
-    //   if (todo.id === id) { 
-    //     todo.completed = !todo.completed;
-    //   }
-    //   return todo;
-    // });
+    let new_todos = this.state.todos.map(todo => { 
+      if (todo.id === id) { 
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
     // this.setState({todos: new_todos});
 
     fetch(url, {
@@ -96,7 +97,7 @@ class TodoContainer extends React.Component {
       body: JSON.stringify(idd)
     }).
     then(resp => resp.json()).then(data => {
-      this.setState({todos: data});
+      this.setState({todos: new_todos});
   }).catch(e => console.error("Error"));    
   }
 
